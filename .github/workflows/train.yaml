@@ -22,11 +22,11 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
-        pip install nbconvert
+        pip install jupyter nbconvert ipykernel
 
     - name: Run training notebook
       run: |
-        jupyter nbconvert --to notebook --execute mlops_lab1.ipynb
+        jupyter nbconvert --to notebook --execute mlops_lab1.ipynb --ExecutePreprocessor.kernel_name=python
 
     - name: Write Job Summary
       run: |
