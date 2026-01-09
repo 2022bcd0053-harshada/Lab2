@@ -26,7 +26,7 @@ jobs:
 
     - name: Run training notebook
       run: |
-        jupyter nbconvert --to notebook --execute train.ipynb
+        jupyter nbconvert --to notebook --execute mlops_lab1.ipynb
 
     - name: Write Job Summary
       run: |
