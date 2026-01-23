@@ -95,10 +95,13 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/wine_predict_2022bcd0053:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/wine_predict_2022bcd0053:latest
 
-      - name: Update Best R2 variable (Optional)
-        if: env.DEPLOY == 'true'
-        run: |
-          gh api -X PATCH \
-          -H "Accept: application/vnd.github+json" \
-          /repos/${{ github.repository }}/actions/variables/BEST_R2 \
-          -f value="${{ env.NEW_R2 }}"
+      - - name: Update BEST_R2 variable
+  if: env.DEPLOY == 'true'
+  env:
+    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  run: |
+    gh api -X PATCH \
+      -H "Accept: application/vnd.github+json" \
+      /repos/2022bcd0053-harshada/Lab2/actions/variables/BEST_R2 \
+      -f value="${NEW_R2}"
+
