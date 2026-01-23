@@ -75,12 +75,13 @@ jobs:
           CURRENT_R2=$(python -c "import json; print(json.load(open('outputs/results/metrics.json'))['r2'])")
           echo "Current R2: $CURRENT_R2"
           echo "Best R2: ${{ vars.BEST_R2 }}"
-
+          
+          # Check if the new model is better
           if (( $(echo "$CURRENT_R2 <= ${{ vars.BEST_R2 }}" | bc -l) )); then
             echo "Metric did not improve. Skipping deployment."
             exit 0
           fi
-
+          
           echo "DEPLOY=true" >> $GITHUB_ENV
           echo "NEW_R2=$CURRENT_R2" >> $GITHUB_ENV
 
@@ -97,7 +98,7 @@ jobs:
       - name: Update BEST_R2 variable
         if: env.DEPLOY == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}   # <-- Use your Personal Access Token here
         run: |
           gh api -X PATCH \
             -H "Accept: application/vnd.github+json" \
